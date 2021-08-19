@@ -9,9 +9,12 @@ public abstract class Charcter : MonoBehaviour
     public abstract bool isWalking { get; set; }
     public abstract bool isDead { get; set; }
     public abstract bool isWin { get; set; }
+    public static bool canSwitch;
 
     Animator ainm;
+    WaitForSeconds waitForSeconds = new WaitForSeconds(5f);
     public abstract void Move();
+
 
     public void UpdateAnimation()
     {
@@ -23,26 +26,17 @@ public abstract class Charcter : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player"))
         {
-            if (hasTheBomb)
+            if (/*hasTheBomb &&*/ canSwitch && GetComponentInChildren<BombController>()!=null)
             {
                 Debug.Log("Called");
                 MoveBombToOther(collision);
-                collision.gameObject.GetComponent<Charcter>().hasTheBomb = true;
-                gameObject.GetComponent<Charcter>().hasTheBomb = false;
+                StartCoroutine(Fade(collision));
+                
             }
         }
-        else if (collision.gameObject.CompareTag("Player"))
-        {
-            if (hasTheBomb)
-            {
-                Debug.Log("Called player");
-                MoveBombToOther(collision);
-                collision.gameObject.GetComponent<Charcter>().hasTheBomb = true;
-                gameObject.GetComponent<Charcter>().hasTheBomb = false;
-            }
-        }
+
     }
 
     private void MoveBombToOther(Collision collision)
@@ -51,4 +45,17 @@ public abstract class Charcter : MonoBehaviour
         bomb.transform.parent = collision.gameObject.transform;
         bomb.transform.position = new Vector3(collision.transform.position.x, collision.transform.position.y + 1, collision.transform.position.z + 0.5f);
     }
+
+    IEnumerator Fade(Collision col)
+    {
+        /*col.gameObject.GetComponent<Charcter>().hasTheBomb = true;
+        gameObject.GetComponent<Charcter>().hasTheBomb = false;*/
+        canSwitch = false;
+        yield return waitForSeconds;
+        canSwitch = true;
+
+        
+
+    }
+
 }

@@ -27,7 +27,8 @@ public class PlayerMoveControlles : Charcter
         rb = GetComponent<Rigidbody>();
         camerObject = Camera.main.transform;
         hasTheBomb = true;
-        firstCamPos.position = camerObject.position;
+        canSwitch = hasTheBomb;
+        
     }
 
 
@@ -36,15 +37,8 @@ public class PlayerMoveControlles : Charcter
         HandleInput();
         HandleMovement();
         HandleRotation();
-        
-
-
-
     }
-    private void LateUpdate()
-    {
-        camerObject.position = transform.position + firstCamPos.position;
-    }
+
 
     private void HandleInput()
     {
