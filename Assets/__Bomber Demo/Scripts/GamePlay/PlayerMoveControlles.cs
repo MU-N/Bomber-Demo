@@ -13,29 +13,81 @@ public class PlayerMoveControlles : Charcter
     private float vertical;
 
     Rigidbody rb;
+    Transform camerObject, firstCamPos;
+    Vector3 moveDirection, targetDirection;
+    Quaternion targetRotaion, playerRotaion;
+
+    public override bool hasTheBomb { get; set; }
+    public override bool isWalking { get; set; }
+    public override bool isDead { get; set; }
+    public override bool isWin { get; set; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        camerObject = Camera.main.transform;
         hasTheBomb = true;
+        firstCamPos.position = camerObject.position;
     }
 
 
     void Update()
     {
-        horizontal = (joystickInput.Horizontal >= 0.2f) ? playerData.MoveSpeed : (joystickInput.Horizontal <= -0.2f) ? -playerData.MoveSpeed : 0f;
+        HandleInput();
+        HandleMovement();
+        HandleRotation();
+        
 
-        vertical = (joystickInput.Vertical >= 0.2f) ? playerData.MoveSpeed : (joystickInput.Vertical <= -0.2f) ? -playerData.MoveSpeed : 0f;
 
-        rb.velocity = new Vector3( horizontal , rb.velocity.y, vertical);
 
     }
-    private void OnBecameInvisible()
+    private void LateUpdate()
     {
-        Debug.Log("Ins");
+        camerObject.position = transform.position + firstCamPos.position;
     }
+
+    private void HandleInput()
+    {
+        horizontal = (joystickInput.Horizontal >= 0.2f) ? playerData.moveSpeed : (joystickInput.Horizontal <= -0.2f) ? -playerData.moveSpeed : 0f;
+        vertical = (joystickInput.Vertical >= 0.2f) ? playerData.moveSpeed : (joystickInput.Vertical <= -0.2f) ? -playerData.moveSpeed : 0f;
+    }
+
+
+    private void HandleMovement()
+    {
+        moveDirection = Vector3.zero;
+        moveDirection = camerObject.forward * vertical;
+        moveDirection = moveDirection + camerObject.right * horizontal;
+        moveDirection.Normalize();
+        moveDirection.y = 0;
+        moveDirection *= playerData.moveSpeed;
+
+        rb.velocity = moveDirection;
+
+    }
+
+    private void HandleRotation()
+    {
+        targetDirection = Vector3.zero;
+        targetDirection = camerObject.forward * vertical;
+        targetDirection = targetDirection + camerObject.right * horizontal;
+        targetDirection.Normalize();
+        targetDirection.y = 0;
+
+        if (targetDirection == Vector3.zero)
+            targetDirection = transform.forward;
+
+        targetRotaion = Quaternion.LookRotation(targetDirection);
+        playerRotaion = Quaternion.Slerp(transform.rotation, targetRotaion, playerData.rotaionSpeed * Time.deltaTime);
+
+        transform.rotation = playerRotaion;
+
+    }
+
+
 
     public override void Move()
     {
-        
+
     }
 }

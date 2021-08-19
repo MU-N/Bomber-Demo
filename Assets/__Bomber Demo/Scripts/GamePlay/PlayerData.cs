@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Game Data", menuName = "PlayerData/PlayerData", order = 1)]
 public class PlayerData : ScriptableObject
 {
-    public float MoveSpeed;
+    public float moveSpeed;
+    public float rotaionSpeed;
 }

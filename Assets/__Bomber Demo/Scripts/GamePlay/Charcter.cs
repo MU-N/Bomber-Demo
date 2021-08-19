@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class Charcter : MonoBehaviour
 {
 
-    public bool hasTheBomb;
-    public bool isWalking;
-    public bool isDead;
-    public bool isWin;
+    public abstract bool hasTheBomb { get; set; }
+    public abstract bool isWalking { get; set; }
+    public abstract bool isDead { get; set; }
+    public abstract bool isWin { get; set; }
 
     Animator ainm;
     public abstract void Move();
@@ -23,23 +23,32 @@ public abstract class Charcter : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            
             if (hasTheBomb)
             {
-                Debug.Log(collision.gameObject.tag);
-                GameObject bomb = GetComponentInChildren<BombController>().gameObject;
-                bomb.transform.parent = collision.gameObject.transform;
-                bomb.transform.position = new Vector3(collision.transform.position.x, collision.transform.position.y + 1, collision.transform.position.z + 0.5f);
-                
-                /*if (collision.gameObject.GetComponent<Enemy>() != null)
-                    collision.gameObject.GetComponent<Enemy>().hasTheBomb = true;
-                else if (collision.gameObject.GetComponent<PlayerController>() != null)
-                    collision.gameObject.GetComponent<PlayerMoveControlles>().hasTheBomb = true;*/
-
-                hasTheBomb = false;
+                Debug.Log("Called");
+                MoveBombToOther(collision);
+                collision.gameObject.GetComponent<Charcter>().hasTheBomb = true;
+                gameObject.GetComponent<Charcter>().hasTheBomb = false;
             }
         }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            if (hasTheBomb)
+            {
+                Debug.Log("Called player");
+                MoveBombToOther(collision);
+                collision.gameObject.GetComponent<Charcter>().hasTheBomb = true;
+                gameObject.GetComponent<Charcter>().hasTheBomb = false;
+            }
+        }
+    }
+
+    private void MoveBombToOther(Collision collision)
+    {
+        GameObject bomb = GetComponentInChildren<BombController>().gameObject;
+        bomb.transform.parent = collision.gameObject.transform;
+        bomb.transform.position = new Vector3(collision.transform.position.x, collision.transform.position.y + 1, collision.transform.position.z + 0.5f);
     }
 }
