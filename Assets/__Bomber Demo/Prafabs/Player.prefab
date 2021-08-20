@@ -1137,7 +1137,7 @@ GameObject:
   - component: {fileID: 5164292825665064314}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1201,4 +1201,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystickInput: {fileID: 0}
+  gameData: {fileID: 11400000, guid: dc0f75d73a200f644a449da36ab91fd3, type: 2}
   playerData: {fileID: 11400000, guid: 3479fa2e2229dea4da4a5837483d1e79, type: 2}

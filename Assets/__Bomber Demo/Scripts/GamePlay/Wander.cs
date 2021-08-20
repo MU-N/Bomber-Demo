@@ -25,14 +25,12 @@ public class Wander : MonoBehaviour, ISteer
 
     Vector3 GetRandomPoint()
     {
-
         Vector3 randomPosition = Random.insideUnitSphere * range;
         RaycastHit hit;
         Ray ray = new Ray(randomPosition, Vector3.down);
         Debug.DrawRay(randomPosition, Vector3.down * range);
         if (Physics.Raycast(ray, out hit, range, mask))
         {
-
             return hit.point;
         }
         return transform.position;

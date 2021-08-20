@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class SteeringBase : MonoBehaviour
 {
-    [SerializeField]
-    float maxSpeed = 10;
-    [SerializeField]
-    float speed;
-    [SerializeField]
-    float steeringSensitivity = 10;
+    [SerializeField] float maxSpeed = 10;
+    [SerializeField] float speed;
+    [SerializeField] float steeringSensitivity = 10;
 
     private Rigidbody rb;
     private IEnumerable<ISteer> steerBehaviors;
-    //private Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //animator = GetComponentInChildren<Animator>();
         steerBehaviors = GetComponents<ISteer>();
     }
 
@@ -43,6 +37,5 @@ public class SteeringBase : MonoBehaviour
         }
 
         rb.velocity = velocity - rb.velocity;
-       // animator.SetFloat("Speed", velocity.magnitude * 2);
     }
 }

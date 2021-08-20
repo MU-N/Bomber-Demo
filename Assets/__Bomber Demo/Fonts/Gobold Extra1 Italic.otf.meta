@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f8aba6fdd09c98a409ade698209ab917
+guid: 798005bd4171dbc4b98185483224306d
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Thor
+  - Gobold Extra1
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
