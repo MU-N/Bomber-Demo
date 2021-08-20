@@ -6,4 +6,6 @@ using UnityEngine;
 public class GameData : ScriptableObject
 {
     public bool canSwitchTheBomb;
+    public int amountOfEnemy;
+    public int timeForBomb;
 }

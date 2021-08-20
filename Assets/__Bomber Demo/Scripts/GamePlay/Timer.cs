@@ -5,7 +5,7 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] float timeValue = 90;
+    [SerializeField] float timeValue = 50;
     [SerializeField] TMP_Text timer;
 
     float mintes;
@@ -31,6 +31,10 @@ public class Timer : MonoBehaviour
         }
         mintes = Mathf.FloorToInt(timeToDisplay / 60);
         seconds = Mathf.FloorToInt(timeToDisplay % 60);
-        timer.text = string.Format("{0:00}:{1:00}",mintes,seconds);
+        timer.text = seconds.ToString("00");
+    }
+    public bool IsRunning()
+    {
+        return timeValue == 0;
     }
 }

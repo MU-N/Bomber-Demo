@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class LevelManger : MonoBehaviour
 {
     [SerializeField] GameData gameData;
-    // Start is called before the first frame update
+    [SerializeField] TMP_Text uiExplodeTimeText;
+    [SerializeField] TMP_Text uiEnemyText;
     void Start()
     {
         gameData.canSwitchTheBomb = true;

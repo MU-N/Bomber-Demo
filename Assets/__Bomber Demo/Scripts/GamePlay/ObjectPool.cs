@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +8,10 @@ public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool SharedInstance { get; private set; }
 
-    [SerializeField] GameObject[] objectToPool;
+    [SerializeField] GameObject objectToPool;
     [SerializeField] int amountToPool;
 
     private Queue<GameObject> pooledObjects = new Queue<GameObject>();
-    private Queue<GameObject> pooledPikerObjects = new Queue<GameObject>();
 
     GameObject tmp;
 
@@ -23,44 +22,38 @@ public class ObjectPool : MonoBehaviour
 
     void Start()
     {
-        AddToPool(amountToPool, 0);
-        AddToPool(amountToPool, 1);
+        AddToPool(amountToPool);
     }
 
-    public GameObject GetFromPool(int index)
+    public GameObject GetFromPool()
     {
         if (pooledObjects.Count == 0)
         {
-            AddToPool(1, index);
+            AddToPool(1);
 
         }
-        if (index == 0)
-            return pooledObjects.Dequeue();
-        else
-            return pooledPikerObjects.Dequeue();
+
+        return pooledObjects.Dequeue();
 
     }
 
-    private void AddToPool(int count, int index)
+    private void AddToPool(int count)
     {
         for (int i = 0; i < count; i++)
         {
-            tmp = Instantiate(objectToPool[index]);
+            tmp = Instantiate(objectToPool);
             tmp.SetActive(false);
-            if (index == 0)
-                pooledObjects.Enqueue(tmp);
-            else
-                pooledPikerObjects.Enqueue(tmp);
+
+            pooledObjects.Enqueue(tmp);
+
         }
     }
 
-    public void ReturnToPool(GameObject returnObject, int index)
+    public void ReturnToPool(GameObject returnObject)
     {
         returnObject.SetActive(false);
-        if (index == 0)
-            pooledObjects.Enqueue(returnObject);
-        else
-            pooledPikerObjects.Enqueue(returnObject);
-       
+        pooledObjects.Enqueue(returnObject);
+
+
     }
 }
