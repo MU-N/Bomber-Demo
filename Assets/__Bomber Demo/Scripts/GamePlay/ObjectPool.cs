@@ -18,6 +18,7 @@ public class ObjectPool : MonoBehaviour
     void Awake()
     {
         SharedInstance = this;
+        
     }
 
     void Start()

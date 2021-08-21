@@ -857,7 +857,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 185455812}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1650094743}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: OnTryAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &185455812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,7 +1330,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 411775432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1650094743}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: OnTryAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &411775432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2608,6 +2632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81bc7df9b4108354ea7b59fc15a27574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winEvent: {fileID: 11400000, guid: 41a409d160ffcd74dbe64906d607e2d1, type: 2}
+  loseEvent: {fileID: 11400000, guid: 103d5fc8ebfbfe54f91737090af7c48a, type: 2}
   gameData: {fileID: 11400000, guid: dc0f75d73a200f644a449da36ab91fd3, type: 2}
   maxDis: 16
   uiExplodeTimeText: {fileID: 1751354314}
@@ -3930,6 +3956,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1650094742}
   - component: {fileID: 1650094743}
+  - component: {fileID: 1650094745}
+  - component: {fileID: 1650094744}
   m_Layer: 5
   m_Name: GameMenus
   m_TagString: Untagged
@@ -3980,6 +4008,62 @@ MonoBehaviour:
   enemyAmoutText: {fileID: 153839372}
   bombAmoutText: {fileID: 2101496361}
   warningText: {fileID: 8482779}
+--- !u!114 &1650094744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650094741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b05596a78ff3db4fb17e8548852ca61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 103d5fc8ebfbfe54f91737090af7c48a, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1650094743}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: OnLoseGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1650094745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650094741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b05596a78ff3db4fb17e8548852ca61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 41a409d160ffcd74dbe64906d607e2d1, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1650094743}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: OnWinGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1712744768
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,7 +4527,7 @@ MonoBehaviour:
   objectToPool:
   - {fileID: 1162392375372998, guid: 3e5b0980d9cc7a94bbb93263b9c6228d, type: 3}
   - {fileID: 7618812902749017273, guid: a3a73c1dfb653fe49a6cc7ca32f4850f, type: 3}
-  amountToPool: 2
+  amountToPool: 1
 --- !u!4 &1876361586
 Transform:
   m_ObjectHideFlags: 0

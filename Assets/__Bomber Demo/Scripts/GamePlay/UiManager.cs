@@ -38,15 +38,18 @@ public class UiManager : MonoBehaviour
     public void OnWinGame()
     {
         uiWinMenu.SetActive(true);
+        Time.timeScale = 0;
     }
 
-    public void OnWinLose()
+    public void OnLoseGame()
     {
         uiLoseMenu.SetActive(true);
+        Time.timeScale = 0;
     }
     public void OnTryAgain()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
     }
     public void OnNextToPlay()
     {
