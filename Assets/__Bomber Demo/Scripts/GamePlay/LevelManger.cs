@@ -17,15 +17,13 @@ public class LevelManger : MonoBehaviour
 
     GameObject[] charcters = new GameObject[61];
 
-    GameObject bombPrefab, explodeEffect ,chacterHasBomb;
+    GameObject bombPrefab, explodeEffect, chacterHasBomb , playerObject;
 
     int index, randomIndex;
 
     float countDown, enemyCount;
 
-
     WaitForSeconds wait = new WaitForSeconds(1);
-    bool lose = false;
     void Start()
     {
         gameData.canSwitchTheBomb = true;
@@ -38,8 +36,8 @@ public class LevelManger : MonoBehaviour
         }
 
 
-
-        charcters[index] = FindObjectOfType<PlayerMoveControlles>().gameObject;
+        playerObject = FindObjectOfType<PlayerMoveControlles>().gameObject;
+        charcters[index] = playerObject;
         uiEnemyText.text = gameData.amountOfEnemy.ToString();
         uiExplodeTimeText.text = gameData.timeForBomb.ToString();
         SpwanNewBomb(index);
@@ -53,34 +51,31 @@ public class LevelManger : MonoBehaviour
     void Update()
     {
 
-        if (countDown > 0)
+        
+        if (index == 0)
         {
-            countDown -= Time.deltaTime;
-            uiExplodeTimeText.text = countDown.ToString("0");
-        }
-        else
-        {
-            SpwnExpoldeEffect();
-            CheckTherParenOfTheBomb(index);
-            ObjectPoolForTwoItems.SharedInstance.ReturnToPool(bombPrefab, 0);
-            SwapWithLastItem();
-            SpwanNewBomb(--index);
-            countDown = gameData.timeForBomb;
-            
-        }
-        if (index == 0 )
-        {
-            for (int i = 0; i < charcters.Length-1; i++)
-            {
-                if(charcters[i].CompareTag("Player")&& charcters[index].GetComponentInChildren<BombController>() != null)
-                {
-                    lose = true;
-                }
-            }
-            if ( lose)
+            if (playerObject.GetComponentInChildren<BombController>() != null)
                 loseEvent.Raise();
             else
                 winEvent.Raise();
+        }
+        else
+        {
+            if (countDown > 0)
+            {
+                countDown -= Time.deltaTime;
+                uiExplodeTimeText.text = countDown.ToString("0");
+            }
+            else
+            {
+                SpwnExpoldeEffect();
+                CheckTherParenOfTheBomb(index);
+                ObjectPoolForTwoItems.SharedInstance.ReturnToPool(bombPrefab, 0);
+                SwapWithLastItem();
+                SpwanNewBomb(--index);
+                countDown = gameData.timeForBomb + 1;
+
+            }
         }
     }
 
@@ -91,7 +86,7 @@ public class LevelManger : MonoBehaviour
             if (charcters[i].GetComponentInChildren<BombController>() != null)
             {
                 randomIndex = i;
-               // chacterHasBomb = charcters[i];
+                // chacterHasBomb = charcters[i];
             }
         }
     }
@@ -104,7 +99,7 @@ public class LevelManger : MonoBehaviour
         ObjectPool.SharedInstance.ReturnToPool(charcters[index]);
         enemyCount--;
         uiEnemyText.text = enemyCount.ToString();
-        
+
     }
 
     private void SpwnExpoldeEffect()
@@ -114,8 +109,8 @@ public class LevelManger : MonoBehaviour
         explodeEffect.SetActive(true);
         explodeEffect.GetComponent<ParticleSystem>().Play();
 
-        StartCoroutine(WaitForOneSec(bombPrefab.transform.parent.gameObject)) ;
-        
+        StartCoroutine(WaitForOneSec(bombPrefab.transform.parent.gameObject));
+
     }
 
     private void SpwanNewBomb(int ind)
@@ -125,7 +120,7 @@ public class LevelManger : MonoBehaviour
         bombPrefab.SetActive(true);
         bombPrefab.transform.parent = charcters[randomIndex].transform;
         bombPrefab.transform.position = new Vector3(charcters[randomIndex].transform.position.x, charcters[randomIndex].transform.position.y + 1, charcters[randomIndex].transform.position.z + 0.5f);
-        
+
     }
 
     IEnumerator WaitForOneSec(GameObject bombHolder)

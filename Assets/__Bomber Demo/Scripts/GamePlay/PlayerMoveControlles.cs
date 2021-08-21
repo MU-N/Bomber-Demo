@@ -25,7 +25,7 @@ public class PlayerMoveControlles : MonoBehaviour
     private bool isDead;
     private bool isWin;
 
-    WaitForSeconds waitForSeconds = new WaitForSeconds(3f);
+    WaitForSeconds waitForSeconds = new WaitForSeconds(2f);
 
 
     void Start()
@@ -41,11 +41,14 @@ public class PlayerMoveControlles : MonoBehaviour
     void Update()
     {
         HandleInput();
-        HandleMovement();
+        
         HandleRotation();
         UpdateAnimation();
     }
-
+    private void FixedUpdate()
+    {
+        HandleMovement();
+    }
 
     private  void HandleInput()
     {

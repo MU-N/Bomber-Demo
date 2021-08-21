@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    [SerializeField] GameData gameData;
     public static ObjectPool SharedInstance { get; private set; }
 
     [SerializeField] GameObject objectToPool;
-    [SerializeField] int amountToPool;
+     int amountToPool;
 
     private Queue<GameObject> pooledObjects = new Queue<GameObject>();
 
@@ -23,6 +24,7 @@ public class ObjectPool : MonoBehaviour
 
     void Start()
     {
+        amountToPool = gameData.amountOfEnemy;
         AddToPool(amountToPool);
     }
 
