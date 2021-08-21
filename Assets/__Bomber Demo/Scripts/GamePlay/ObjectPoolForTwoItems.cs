@@ -32,8 +32,8 @@ public class ObjectPoolForTwoItems : MonoBehaviour
         if (pooledObjects.Count == 0)
         {
             AddToPool(1, index);
-
         }
+
         if (index == 0)
             return pooledObjects.Dequeue();
         else

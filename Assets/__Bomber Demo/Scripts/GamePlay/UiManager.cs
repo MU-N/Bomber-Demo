@@ -22,14 +22,16 @@ public class UiManager : MonoBehaviour
 
     void Start()
     {
-
-        uiLoseMenu.SetActive(false);
-        uiWinMenu.SetActive(false);
-        uiInGameMenu.SetActive(false);
-        uiStartGameMenu.SetActive(true);
-        warningText.gameObject.SetActive(false);
-        validInputValue = false;
-        Time.timeScale = 0;
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            uiLoseMenu.SetActive(false);
+            uiWinMenu.SetActive(false);
+            uiInGameMenu.SetActive(false);
+            uiStartGameMenu.SetActive(true);
+            warningText.gameObject.SetActive(false);
+            validInputValue = false;
+            Time.timeScale = 0;
+        }
     }
 
 
@@ -54,6 +56,7 @@ public class UiManager : MonoBehaviour
             uiInGameMenu.SetActive(true);
             uiStartGameMenu.SetActive(false);
             Time.timeScale = 1;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
         }
 
         else
