@@ -32,6 +32,10 @@ public class UiManager : MonoBehaviour
             validInputValue = false;
             Time.timeScale = 0;
         }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 
 
