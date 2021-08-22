@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISteer
 {
-    Vector3 GetForce();
+    Vector3 GetForce( Transform target);
 }

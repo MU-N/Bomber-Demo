@@ -9,7 +9,7 @@ public class Wander : MonoBehaviour, ISteer
     [SerializeField] float speed = 5;
 
     [SerializeField] Vector3 target;
-    public Vector3 GetForce()
+    public Vector3 GetForce( Transform targ)
     {
         if ((target - transform.position).magnitude < 1)
         {

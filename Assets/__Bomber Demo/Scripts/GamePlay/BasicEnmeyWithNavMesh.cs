@@ -1,18 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class BasicEnmeyWithNavMesh : MonoBehaviour
 {
+
+
 
     [SerializeField] GameData gameData;
     [SerializeField] LayerMask whatIsCharcter;
+    [SerializeField] LayerMask whatIsGround;
 
     [SerializeField] float maxSpeed = 10;
     [SerializeField] float speed;
     [SerializeField] float steeringSensitivity = 10;
     [SerializeField] float radius = 5;
+    [SerializeField] float wandarRange = 5;
 
     private bool hasTheBomb;
     private bool isWalking;
@@ -20,20 +24,26 @@ public class Enemy : MonoBehaviour
     private bool isWin;
     private bool isInRnage;
 
+
+
+
+    public Vector3 walkPoint;
+    bool walkPointSet;
+    public float walkPointRange;
+
+
+
+
     private Rigidbody rb;
     private Animator anim;
-
-    private Seek seek;
-    private Wander wander;
-    private Flee flee;
-
+    private NavMeshAgent agent;
 
 
     WaitForSeconds waitForSeconds = new WaitForSeconds(2f);
 
     private Vector3 appliedVelocity;
 
-    private float shortDistance = Mathf.Infinity;
+    private float shortDistance = 1e5f + 7f;
     private Transform shortObject;
     private Transform hasBombObject;
 
@@ -41,9 +51,7 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
-        seek = GetComponent<Seek>();
-        wander = GetComponent<Wander>();
-        flee = GetComponent<Flee>();
+        agent = GetComponent<NavMeshAgent>();
 
     }
 
@@ -56,23 +64,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        appliedVelocity = Vector3.zero;
-
-        appliedVelocity += CheckForappliedVelocity();
-
-        appliedVelocity.y = 0;
-        Vector3 velocity = transform.forward * appliedVelocity.magnitude;
-        speed = velocity.magnitude;
-
-        if (appliedVelocity.magnitude > 0)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(appliedVelocity), Time.fixedDeltaTime * steeringSensitivity);
-
-        if (velocity.magnitude > maxSpeed)
-        {
-            velocity = velocity.normalized * maxSpeed;
-        }
-
-        rb.velocity = velocity - rb.velocity;
+        agent.SetDestination(CheckForappliedVelocity());
     }
 
     private void UpdateAnimation()
@@ -117,19 +109,23 @@ public class Enemy : MonoBehaviour
     private Vector3 CheckForappliedVelocity()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, whatIsCharcter);
-        Debug.Log(hitColliders.Length + " " + transform.name);
         if (GetComponentInChildren<BombController>() != null)
         {
+            float dis = 0;
             for (int i = 0; i < hitColliders.Length; i++)
             {
-                float dis = Vector3.Distance(transform.position, hitColliders[i].transform.position);
+                dis = Vector3.Distance(transform.position, hitColliders[i].transform.position);
                 if (dis < shortDistance)
                 {
+                    Debug.Log(dis + " " + shortDistance);
                     shortDistance = dis;
                     shortObject = hitColliders[i].transform;
                 }
             }
-            return SeekTarget(shortObject);
+            if (dis != 0f)
+                return SeekTarget(shortObject);
+            else
+                return WanderTarget();
 
         }
         else
@@ -148,11 +144,14 @@ public class Enemy : MonoBehaviour
 
                         hasBombObject = hitColliders[i].transform;
                     }
+
+
                 }
                 if (hasBombObject != null)
                     return FleeTarget(hasBombObject);
                 else
                     return WanderTarget();
+
             }
         }
 
@@ -164,23 +163,44 @@ public class Enemy : MonoBehaviour
     private Vector3 WanderTarget()
     {
         Debug.Log("Wander");
-        return wander.GetForce(transform);
+        if (!walkPointSet)
+            walkPoint = GetRandomPoint();
+
+        if (walkPointSet)
+            agent.SetDestination(walkPoint);
+
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        if (distanceToWalkPoint.magnitude < 2f)
+            walkPointSet = false;
+
+        return walkPoint;
     }
 
     private Vector3 FleeTarget(Transform targetTransform)
     {
         Debug.Log("fleee");
-        return flee.GetForce(targetTransform);
+        return targetTransform.position * -1;
     }
 
     private Vector3 SeekTarget(Transform targetTransform)
     {
         Debug.Log("Seek");
-        return seek.GetForce(targetTransform);
+
+        return targetTransform.position;
     }
 
 
+    Vector3 GetRandomPoint()
+    {
 
+        walkPoint = Random.insideUnitSphere * wandarRange;
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+            walkPointSet = true;
+
+        return walkPoint;
+    }
 
 
 
@@ -199,3 +219,5 @@ public class Enemy : MonoBehaviour
     }
 
 }
+
+

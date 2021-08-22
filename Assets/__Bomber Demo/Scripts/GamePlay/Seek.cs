@@ -5,15 +5,14 @@ using UnityEngine;
 public class Seek : MonoBehaviour, ISteer
 {
     
-    [HideInInspector] public Transform target;
     [SerializeField]float speed = 5;
 
 
 
-    public virtual Vector3 GetForce()
+    public virtual Vector3 GetForce(Transform targ)
     {
         Vector3 velocity = Vector3.zero;
-        Vector3 dir = (target.position - transform.position).normalized;
+        Vector3 dir = (targ.position - transform.position).normalized;
 
         transform.forward = dir;
         velocity = dir * speed;

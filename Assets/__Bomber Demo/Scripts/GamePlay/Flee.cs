@@ -5,16 +5,15 @@ using UnityEngine;
 public class Flee : MonoBehaviour, ISteer
 {
     
-    [HideInInspector] public Transform target;
     [SerializeField] float speed = 5;
     [SerializeField] float inRange = 5;
 
     Vector3 velocity;
 
 
-    public Vector3 GetForce()
+    public Vector3 GetForce(Transform targ)
     {
-        Vector3 ds = transform.position - target.position;
+        Vector3 ds = transform.position - targ.position;
         Vector3 dir = ds.normalized;
         transform.forward = dir;
         if (ds.magnitude < inRange)

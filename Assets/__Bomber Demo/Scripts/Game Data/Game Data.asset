@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ebd2fe5c5443c045971c63d347df370, type: 3}
   m_Name: Game Data
   m_EditorClassIdentifier: 
-  canSwitchTheBomb: 0
+  canSwitchTheBomb: 1
+  amountOfEnemy: 10
+  timeForBomb: 10
