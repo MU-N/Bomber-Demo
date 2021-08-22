@@ -110,7 +110,7 @@ public class LevelManger : MonoBehaviour
         explodeEffect.GetComponent<ParticleSystem>().Play();
 
         StartCoroutine(WaitForOneSec(bombPrefab.transform.parent.gameObject));
-
+        FindObjectOfType<AudioManager>().Play("Bomb");
     }
 
     private void SpwanNewBomb(int ind)

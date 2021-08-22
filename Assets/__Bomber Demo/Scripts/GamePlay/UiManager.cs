@@ -39,17 +39,20 @@ public class UiManager : MonoBehaviour
     {
         uiWinMenu.SetActive(true);
         Time.timeScale = 0;
+        
     }
 
     public void OnLoseGame()
     {
         uiLoseMenu.SetActive(true);
         Time.timeScale = 0;
+        FindObjectOfType<AudioManager>().Play("Lose");
     }
     public void OnTryAgain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
     }
     public void OnNextToPlay()
     {

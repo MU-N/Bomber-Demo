@@ -117,7 +117,6 @@ public class BasicEnmeyWithNavMesh : MonoBehaviour
                 dis = Vector3.Distance(transform.position, hitColliders[i].transform.position);
                 if (dis < shortDistance)
                 {
-                    Debug.Log(dis + " " + shortDistance);
                     shortDistance = dis;
                     shortObject = hitColliders[i].transform;
                 }
@@ -162,7 +161,7 @@ public class BasicEnmeyWithNavMesh : MonoBehaviour
 
     private Vector3 WanderTarget()
     {
-        Debug.Log("Wander");
+        //Debug.Log("Wander");
         if (!walkPointSet)
             walkPoint = GetRandomPoint();
 
@@ -179,13 +178,13 @@ public class BasicEnmeyWithNavMesh : MonoBehaviour
 
     private Vector3 FleeTarget(Transform targetTransform)
     {
-        Debug.Log("fleee");
+        //Debug.Log("fleee");
         return targetTransform.position * -1;
     }
 
     private Vector3 SeekTarget(Transform targetTransform)
     {
-        Debug.Log("Seek");
+        //Debug.Log("Seek");
 
         return targetTransform.position;
     }
